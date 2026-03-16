@@ -49,7 +49,7 @@ const translations = {
             button: 'Entendi'
         },
         messages: {
-            amountError: 'Montante deve estar entre 10.000 e 5.000.000 CVE',
+            amountError: 'Montante deve estar entre 10.000 e 50.000.000 CVE',
             periodError: 'Período deve ser superior a 0',
             rateError: 'Taxa deve estar entre 0% e 30%',
             taegError: 'TAEG deve ser superior a 0',
@@ -151,7 +151,7 @@ const translations = {
             button: 'Got it'
         },
         messages: {
-            amountError: 'Amount must be between 10,000 and 5,000,000 CVE',
+            amountError: 'Amount must be between 10,000 and 50,000,000 CVE',
             periodError: 'Period must be greater than 0',
             rateError: 'Rate must be between 0% and 30%',
             taegError: 'TAEG must be greater than 0',
@@ -313,14 +313,16 @@ function initializeDarkMode() {
 // =============================
 
 function formatCurrency(value) {
-    return new Intl.NumberFormat('pt-CV', {
+    const locale = currentLanguage === 'pt' ? 'pt-CV' : 'en-US';
+    return new Intl.NumberFormat(locale, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     }).format(value);
 }
 
 function formatNumber(value) {
-    return new Intl.NumberFormat('pt-CV', {
+    const locale = currentLanguage === 'pt' ? 'pt-CV' : 'en-US';
+    return new Intl.NumberFormat(locale, {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
     }).format(value);
@@ -339,7 +341,7 @@ function validateForm() {
 
     let isValid = true;
 
-    if (amount <= 0 || amount > 5000000) {
+    if (amount <= 0 || amount > 50000000) {
         showError('amountError', t('messages.amountError'));
         isValid = false;
     } else {
@@ -423,8 +425,19 @@ document.getElementById('rateSlider')?.addEventListener('input', function() {
 });
 
 document.getElementById('amount')?.addEventListener('input', function() {
-    document.getElementById('amountSlider').value = this.value;
-    document.getElementById('amountDisplay').textContent = formatNumber(this.value);
+    const numericValue = this.value;
+    document.getElementById('amountSlider').value = numericValue || 0;
+    document.getElementById('amountDisplay').textContent = formatNumber(numericValue || 0);
+});
+
+document.getElementById('amount')?.addEventListener('paste', function(e) {
+    e.preventDefault();
+    const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+    const numericValue = pastedText.replace(/\D/g, '');
+    this.value = numericValue || '';
+    document.getElementById('amountSlider').value = numericValue || 0;
+    document.getElementById('amountDisplay').textContent = formatNumber(numericValue || 0);
+    calculate();
 });
 
 document.getElementById('periodValue')?.addEventListener('input', function() {
@@ -743,7 +756,7 @@ function showNotification(message) {
 function resetForm() {
     document.getElementById('amount').value = '100000';
     document.getElementById('amountSlider').value = '100000';
-    document.getElementById('amountDisplay').textContent = '100,000';
+    document.getElementById('amountDisplay').textContent = formatNumber(100000);
     
     document.getElementById('periodValue').value = '12';
     document.getElementById('periodSlider').value = '12';
@@ -849,6 +862,12 @@ function init() {
     initializeDarkMode();
     updateLanguageDisplay();
     translatePage();
+    // Initialize amount display with formatted value
+    const amountField = document.getElementById('amount');
+    if (amountField && amountField.value) {
+        const numericValue = parseFloat(amountField.value);
+        document.getElementById('amountDisplay').textContent = formatNumber(numericValue);
+    }
     calculate();
 }
 

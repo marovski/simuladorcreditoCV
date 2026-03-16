@@ -45,9 +45,9 @@
                         </label>
                         <span class="slider-value" id="amountDisplay">100,000</span>
                     </div>
-                    <input type="range" id="amountSlider" min="10000" max="5000000" value="100000" step="10000" class="slider">
+                    <input type="range" id="amountSlider" min="10000" max="50000000" value="100000" step="10000" class="slider">
                     <div class="input-wrapper">
-                        <input type="number" id="amount" value="100000" placeholder="0">
+                        <input type="number" id="amount" value="100000" placeholder="0" class="number-input">
                         <span class="input-suffix">CVE</span>
                     </div>
                     <span class="validation-error" id="amountError" style="display: none;"></span>
@@ -63,8 +63,8 @@
                         <span class="slider-value" id="periodDisplay">12 meses</span>
                     </div>
                     <input type="range" id="periodSlider" min="6" max="360" value="12" step="1" class="slider">
-                    <div class="period-inputs">
-                        <input type="number" id="periodValue" value="12" placeholder="0">
+                    <div class="input-wrapper period-picker">
+                        <input type="number" id="periodValue" value="12" placeholder="0" class="number-input">
                         <select id="periodUnit">
                             <option value="meses" data-i18n="form.period.months">Meses</option>
                             <option value="anos" data-i18n="form.period.years">Anos</option>
@@ -84,7 +84,7 @@
                     </div>
                     <input type="range" id="rateSlider" min="1" max="30" value="12" step="0.5" class="slider">
                     <div class="input-wrapper">
-                        <input type="number" id="nominalRate" value="12" step="0.1" placeholder="0">
+                        <input type="number" id="nominalRate" value="12" step="0.1" placeholder="0" class="number-input">
                         <span class="input-suffix">%</span>
                     </div>
                     <span class="validation-error" id="rateError" style="display: none;"></span>
@@ -107,7 +107,7 @@
                         </label>
                     </div>
                     <div class="input-wrapper">
-                        <input type="number" id="taegInput" step="0.1" placeholder="Ex: 15.5" disabled>
+                        <input type="number" id="taegInput" step="0.1" placeholder="Ex: 15.5" disabled class="number-input">
                         <span class="input-suffix">%</span>
                     </div>
                     <p class="hint" id="taegHint" style="display: none;" data-i18n="form.taeg.hint">
