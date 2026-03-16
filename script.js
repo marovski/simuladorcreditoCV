@@ -9,13 +9,25 @@ const translations = {
             subtitle: 'Cabo Verde 🇨🇻'
         },
         form: {
-            amount: { label: 'Montante do Crédito' },
-            period: { label: 'Período de Pagamento', months: 'Meses', years: 'Anos' },
-            rate: { label: 'Taxa Nominal Anual' },
+            amount: { 
+                label: 'Quanto dinheiro quer pedir emprestado?',
+                helper: 'Para carro, casa ou outro fim. Mínimo 10.000 CVE, máximo 50.000.000 CVE.'
+            },
+            period: { 
+                label: 'Em quantos meses pretende pagar?', 
+                helper: 'Períodos maiores = prestações menores, mas mais juros no total.',
+                months: 'Meses', 
+                years: 'Anos' 
+            },
+            rate: { 
+                label: 'Taxa de juro anual do banco (%)', 
+                helper: 'Peça este valor ao seu banco. Afeta quanto vai pagar de juros.'
+            },
             divider: { or: 'OU' },
             taeg: {
-                label: 'Usar TAEG fornecida pelo banco',
-                hint: '💡 Com TAEG: Total a Pagar e Juros incluem todos os custos reais (comissões, seguros, etc.)'
+                label: 'Usar TAEG do banco (mais realista)',
+                helper: 'TAEG = taxa que inclui igualmente comissões, seguros, etc. Dá o custo real.',
+                hint: '💡 Com TAEG: Total a Pagar e Juros incluem igualmente todos os custos reais (comissões, seguros, etc.)'
             },
             buttons: {
                 calculate: '🔢 Calcular',
@@ -28,21 +40,47 @@ const translations = {
             monthlyPayment: { label: 'Prestação Mensal' },
             taeg: { label: 'TAEG (Taxa Anual Efetiva)' },
             totalPayment: { label: 'Total a Pagar' },
-            totalInterest: { label: 'Total de Juros' },
+            totalInterest: { label: 'Total de Juros (Custo do Crédito)' },
             summary: { title: '📋 Resumo' },
+            affordability: {
+                title: '💼 Pode pagar?',
+                helper: 'Indique seu rendimento mensal para saber se a prestação é acessível',
+                income: { label: 'Seu rendimento mensal aproximado (CVE)' },
+                guidance: 'Recomendação geral: prestação < 20% do rendimento = confortável | 20-35% = aceitável | > 35% = apertado',
+                indicator: {
+                    green: '✅ Confortável',
+                    yellow: '⚠️ Aceitável',
+                    red: '🔴 Apertado'
+                }
+            },
             amortization: {
-                title: '📅 Cronograma de Amortização',
-                loading: 'Gerando cronograma...'
+                title: '📅 Como vai pagar?',
+                subtitle: 'Primeiras 12 prestações (cronograma completo disponível)',
+                columns: {
+                    month: 'Mês',
+                    payment: 'Prestação',
+                    interest: 'Juros',
+                    principal: 'Devolve',
+                    balance: 'Saldo'
+                },
+                expand: 'Ver todas as prestações'
             },
             comparison: {
-                title: '🔀 Modo Comparação',
+                title: '🔀 Comparison Mode',
                 info: 'Use os controles acima para ajustar os valores. Clique no botão abaixo para comparar a situação anterior com a atual.',
                 button: '📸 Capturar para Comparação'
+            },
+            transparency: {
+                title: '🔓 Transparência',
+                disclaimer: 'Este simulador é apenas educativo. Os valores são estimativas com base no mercado de Cabo Verde e podem variar conforme o banco.',
+                privacy: '🔒 Privacidade: Não guardamos nenhum dado seu. Tudo funciona no seu browser.',
+                contact: 'Contactar banco: Confirme sempre os valores com sua instituição financeira antes de assinar qualquer contrato.'
             }
         },
         footer: {
             disclaimer: 'Simulação indicativa com base no mercado de Cabo Verde 🇨🇻 Consulte a instituição financeira para valores exatos.',
-            credit: 'Simulador de Crédito Cabo Verde'
+            credit: 'Simulador de Crédito Cabo Verde',
+            privacy: 'Sem recolha de dados | Totalmente privado | Educativo'
         },
         popup: {
             formula: '📐 Fórmula utilizada:',
@@ -111,12 +149,24 @@ const translations = {
             subtitle: 'Cape Verde 🇨🇻'
         },
         form: {
-            amount: { label: 'Credit Amount' },
-            period: { label: 'Payment Period', months: 'Months', years: 'Years' },
-            rate: { label: 'Nominal Annual Rate' },
+            amount: { 
+                label: 'How much money do you want to borrow?',
+                helper: 'For car, house or other purpose. Min 10,000 CVE, max 50,000,000 CVE.'
+            },
+            period: { 
+                label: 'How many months will you pay?', 
+                helper: 'Longer periods = lower payments, but more interest in total.',
+                months: 'Months', 
+                years: 'Years' 
+            },
+            rate: { 
+                label: 'Bank annual interest rate (%)', 
+                helper: 'Ask your bank for this value. It affects how much you pay in interest.'
+            },
             divider: { or: 'OR' },
             taeg: {
-                label: 'Use TAEG provided by the bank',
+                label: 'Use bank\'s TAEG (more realistic)',
+                helper: 'TAEG = rate that includes commissions, insurance, etc. Shows real cost.',
                 hint: '💡 With TAEG: Total Payment and Interest include all real costs (fees, insurance, etc.)'
             },
             buttons: {
@@ -130,21 +180,47 @@ const translations = {
             monthlyPayment: { label: 'Monthly Payment' },
             taeg: { label: 'TAEG (Annual Effective Rate)' },
             totalPayment: { label: 'Total Payment' },
-            totalInterest: { label: 'Total Interest' },
+            totalInterest: { label: 'Total Interest (Cost of Credit)' },
             summary: { title: '📋 Summary' },
+            affordability: {
+                title: '💼 Can you afford it?',
+                helper: 'Enter your monthly income to see if the payment is affordable',
+                income: { label: 'Your approximate monthly income (CVE)' },
+                guidance: 'General recommendation: payment < 20% of income = comfortable | 20-35% = acceptable | > 35% = tight',
+                indicator: {
+                    green: '✅ Comfortable',
+                    yellow: '⚠️ Acceptable',
+                    red: '🔴 Tight'
+                }
+            },
             amortization: {
-                title: '📅 Amortization Schedule',
-                loading: 'Generating schedule...'
+                title: '📅 How will you pay?',
+                subtitle: 'First 12 payments (full schedule available)',
+                columns: {
+                    month: 'Month',
+                    payment: 'Payment',
+                    interest: 'Interest',
+                    principal: 'Repay',
+                    balance: 'Balance'
+                },
+                expand: 'See all payments'
             },
             comparison: {
                 title: '🔀 Comparison Mode',
                 info: 'Use the controls above to adjust values. Click the button below to compare the previous situation with the current one.',
                 button: '📸 Capture for Comparison'
+            },
+            transparency: {
+                title: '🔓 Transparency',
+                disclaimer: 'This simulator is educational only. Values are estimates based on Cape Verde market and may vary by bank.',
+                privacy: '🔒 Privacy: We don\'t store any of your data. Everything works in your browser.',
+                contact: 'Contact bank: Always confirm values with your financial institution before signing any contract.'
             }
         },
         footer: {
             disclaimer: 'Indicative simulation based on Cape Verde market 🇨🇻 Consult the financial institution for exact values.',
-            credit: 'Cape Verde Credit Simulator'
+            credit: 'Cape Verde Credit Simulator',
+            privacy: 'No data collection | Completely private | Educational'
         },
         popup: {
             formula: '📐 Formula used:',
@@ -567,12 +643,25 @@ function calculate() {
 
 function generateAmortizationSchedule(principal, monthlyPayment, monthlyRate, totalMonths) {
     let balance = principal;
-    const monthText = currentLanguage === 'pt' ? 'Mês' : 'Month';
-    const paymentText = currentLanguage === 'pt' ? 'Pagamento' : 'Payment';
-    const interestText = currentLanguage === 'pt' ? 'Juros' : 'Interest';
-    const balanceText = currentLanguage === 'pt' ? 'Saldo' : 'Balance';
+    const monthCol = currentLanguage === 'pt' ? 'Mês' : 'Month';
+    const paymentCol = currentLanguage === 'pt' ? 'Prestação' : 'Payment';
+    const interestCol = currentLanguage === 'pt' ? 'Juros' : 'Interest';
+    const principalCol = currentLanguage === 'pt' ? 'Devolve' : 'Principal';
+    const balanceCol = currentLanguage === 'pt' ? 'Saldo' : 'Balance';
 
-    let scheduleHTML = `<div class="table-header"><div>${monthText}</div><div>${paymentText}</div><div>${interestText}</div><div>${balanceText}</div></div>`;
+    let tableHTML = `
+        <table>
+            <thead>
+                <tr>
+                    <th>${monthCol}</th>
+                    <th>${paymentCol}</th>
+                    <th>${interestCol}</th>
+                    <th>${principalCol}</th>
+                    <th>${balanceCol}</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
     
     const monthsToShow = Math.min(12, totalMonths);
     
@@ -581,22 +670,67 @@ function generateAmortizationSchedule(principal, monthlyPayment, monthlyRate, to
         const principal_payment = monthlyPayment - interest;
         balance -= principal_payment;
         
-        scheduleHTML += `
-            <div class="table-row">
-                <div>${i}</div>
-                <div>${formatCurrency(monthlyPayment)}</div>
-                <div>${formatCurrency(interest)}</div>
-                <div>${formatCurrency(Math.max(0, balance))}</div>
-            </div>
+        tableHTML += `
+            <tr>
+                <td>${i}</td>
+                <td>${formatCurrency(monthlyPayment)}</td>
+                <td>${formatCurrency(interest)}</td>
+                <td>${formatCurrency(principal_payment)}</td>
+                <td>${formatCurrency(Math.max(0, balance))}</td>
+            </tr>
         `;
     }
 
+    tableHTML += `</tbody></table>`;
+
     if (totalMonths > 12) {
-        const showingText = currentLanguage === 'pt' ? 'Mostrando primeiros 12 meses de' : 'Showing first 12 months of';
-        scheduleHTML += `<p style="text-align: center; font-size: 0.75rem; color: #6b7280; margin-top: 0.5rem;">${showingText} ${totalMonths}</p>`;
+        const note = currentLanguage === 'pt' 
+            ? `Mostrando primeiras 12 prestações de ${totalMonths}` 
+            : `Showing first 12 payments of ${totalMonths}`;
+        tableHTML += `<p style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.75rem;">${note}</p>`;
     }
 
-    document.getElementById('amortizationContent').innerHTML = scheduleHTML;
+    document.getElementById('amortizationContent').innerHTML = tableHTML;
+}
+
+// =============================
+// AFFORDABILITY INDICATOR
+// =============================
+
+function updateAffordabilityIndicator() {
+    const monthlyPayment = currentResults.monthlyPayment;
+    const incomeInput = document.getElementById('incomeInput');
+    const income = parseFloat(incomeInput.value) || 0;
+    
+    if (income <= 0) {
+        document.getElementById('affordabilityIndicator').style.display = 'none';
+        return;
+    }
+
+    const percentage = (monthlyPayment / income) * 100;
+    let color, status, message;
+
+    if (percentage < 20) {
+        color = '#16a34a'; // green
+        status = currentLanguage === 'pt' ? '✅ Confortável' : '✅ Comfortable';
+    } else if (percentage < 35) {
+        color = '#ea580c'; // warning orange
+        status = currentLanguage === 'pt' ? '⚠️ Aceitável' : '⚠️ Acceptable';
+    } else {
+        color = '#dc2626'; // danger red
+        status = currentLanguage === 'pt' ? '🔴 Apertado' : '🔴 Tight';
+    }
+
+    const barHTML = `<div class="bar-fill" style="width: ${Math.min(percentage, 100)}%; background-color: ${color};">${percentage >= 10 ? Math.round(percentage) + '%' : ''}</div>`;
+    document.querySelector('.affordability-bar').innerHTML = barHTML;
+
+    const guidanceText= currentLanguage === 'pt'
+        ? `Sua prestação é ${Math.round(percentage)}% do seu rendimento. ${status}`
+        : `Your payment is ${Math.round(percentage)}% of your income. ${status}`;
+
+    document.getElementById('affordabilityText').textContent = guidanceText;
+    document.getElementById('affordabilityText').style.color = color;
+    document.getElementById('affordabilityIndicator').style.display = 'block';
 }
 
 // =============================
@@ -835,6 +969,13 @@ document.getElementById('periodUnit')?.addEventListener('change', function() {
 });
 document.getElementById('nominalRate')?.addEventListener('input', calculate);
 document.getElementById('taegInput')?.addEventListener('input', calculate);
+
+// Income input for affordability indicator
+document.getElementById('incomeInput')?.addEventListener('input', function() {
+    if (currentResults) {
+        updateAffordabilityIndicator();
+    }
+});
 
 document.getElementById('useTaeg')?.addEventListener('change', function() {
     const taegInput = document.getElementById('taegInput');

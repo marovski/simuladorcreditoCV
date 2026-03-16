@@ -56,11 +56,12 @@
                 <div class="form-group">
                     <div class="label-row">
                         <label>
-                            💰 <span data-i18n="form.amount.label">Montante do Crédito</span>
+                            💰 <span data-i18n="form.amount.label">Quanto dinheiro quer pedir emprestado?</span>
                             <button type="button" class="info-btn" onclick="showInfo('amount')">ℹ️</button>
                         </label>
                         <span class="slider-value" id="amountDisplay">100,000</span>
                     </div>
+                    <p class="helper-text" data-i18n="form.amount.helper">Para carro, casa ou outro fim. Mínimo 10.000 CVE, máximo 50.000.000 CVE.</p>
                     <input type="range" id="amountSlider" min="10000" max="50000000" value="100000" step="10000" class="slider">
                     <div class="input-wrapper">
                         <input type="number" id="amount" value="100000" placeholder="0" class="number-input">
@@ -73,11 +74,12 @@
                 <div class="form-group">
                     <div class="label-row">
                         <label>
-                            📅 <span data-i18n="form.period.label">Período de Pagamento</span>
+                            📅 <span data-i18n="form.period.label">Em quantos meses pretende pagar?</span>
                             <button type="button" class="info-btn" onclick="showInfo('period')">ℹ️</button>
                         </label>
                         <span class="slider-value" id="periodDisplay">12 meses</span>
                     </div>
+                    <p class="helper-text" data-i18n="form.period.helper">Períodos maiores = prestações menores, mas mais juros no total.</p>
                     <input type="range" id="periodSlider" min="6" max="360" value="12" step="1" class="slider">
                     <div class="input-wrapper period-picker">
                         <input type="number" id="periodValue" value="12" placeholder="0" class="number-input">
@@ -93,11 +95,12 @@
                 <div class="form-group">
                     <div class="label-row">
                         <label>
-                            📊 <span data-i18n="form.rate.label">Taxa Nominal Anual</span>
+                            📊 <span data-i18n="form.rate.label">Taxa de juro anual do banco (%)</span>
                             <button type="button" class="info-btn" onclick="showInfo('nominalRate')">ℹ️</button>
                         </label>
                         <span class="slider-value" id="rateDisplay">12.0%</span>
                     </div>
+                    <p class="helper-text" data-i18n="form.rate.helper">Peça este valor ao seu banco. Afeta quanto vai pagar de juros.</p>
                     <input type="range" id="rateSlider" min="1" max="30" value="12" step="0.5" class="slider">
                     <div class="input-wrapper">
                         <input type="number" id="nominalRate" value="12" step="0.1" placeholder="0" class="number-input">
@@ -198,14 +201,45 @@
                     <div id="summaryContent"></div>
                 </div>
 
+                <!-- Affordability Check -->
+                <div class="affordability-section">
+                    <div class="section-header">
+                        <h3 data-i18n="results.affordability.title">💼 Pode pagar?</h3>
+                    </div>
+                    <p class="section-helper" data-i18n="results.affordability.helper">Indique seu rendimento mensal para saber se a prestação é acessível</p>
+                    <div class="affordability-content">
+                        <div class="input-wrapper">
+                            <input type="number" id="incomeInput" placeholder="0" class="number-input">
+                            <span class="input-suffix">CVE</span>
+                        </div>
+                        <div id="affordabilityIndicator" style="display: none; margin-top: 1rem;">
+                            <div class="affordability-bar" id="affordabilityBar"></div>
+                            <p class="affordability-text" id="affordabilityText"></p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Amortization Schedule -->
                 <div class="amortization-section">
                     <div class="section-header">
-                        <h3 data-i18n="results.amortization.title">📅 Cronograma de Amortização</h3>
+                        <h3 data-i18n="results.amortization.title">📅 Como vai pagar?</h3>
                         <button type="button" class="toggle-btn" onclick="toggleAmortization()">▼</button>
                     </div>
+                    <p class="section-helper" data-i18n="results.amortization.subtitle">Primeiras 12 prestações (cronograma completo disponível)</p>
                     <div id="amortizationContent" class="schedule-table" style="display: none;">
-                        <p class="loading-text" data-i18n="results.amortization.loading">Gerando cronograma...</p>
+                        <p class="loading-text">Loading...</p>
+                    </div>
+                </div>
+
+                <!-- Transparency Section -->
+                <div class="transparency-section">
+                    <div class="section-header">
+                        <h3 data-i18n="results.transparency.title">🔓 Transparência</h3>
+                    </div>
+                    <div class="transparency-content">
+                        <p><strong data-i18n="results.transparency.disclaimer">Este simulador é apenas educativo. Os valores são estimativas com base no mercado de Cabo Verde e podem variar conforme o banco.</strong></p>
+                        <p><span data-i18n="results.transparency.privacy">🔒 Privacidade: Não guardamos nenhum dado seu. Tudo funciona no seu browser.</span></p>
+                        <p><span data-i18n="results.transparency.contact">Contactar banco: Confirme sempre os valores com sua instituição financeira antes de assinar qualquer contrato.</span></p>
                     </div>
                 </div>
 
