@@ -229,6 +229,11 @@ function toggleLanguage() {
     localStorage.setItem('language', currentLanguage);
     updateLanguageDisplay();
     translatePage();
+    // Update period display with the new language
+    const periodValue = parseInt(document.getElementById('periodValue').value) || 0;
+    const periodUnit = document.getElementById('periodUnit')?.value || 'meses';
+    const unitText = periodUnit === 'anos' ? (currentLanguage === 'pt' ? 'anos' : 'years') : (currentLanguage === 'pt' ? 'meses' : 'months');
+    document.getElementById('periodDisplay').textContent = periodValue + ' ' + unitText;
     if (currentResults) calculate();
 }
 
@@ -412,9 +417,10 @@ document.getElementById('amountSlider')?.addEventListener('input', function() {
 
 document.getElementById('periodSlider')?.addEventListener('input', function() {
     document.getElementById('periodValue').value = this.value;
-    const months = parseInt(this.value);
-    const monthsText = currentLanguage === 'pt' ? 'meses' : 'months';
-    document.getElementById('periodDisplay').textContent = months + ' ' + monthsText;
+    const value = parseInt(this.value);
+    const periodUnit = document.getElementById('periodUnit')?.value || 'meses';
+    const unitText = periodUnit === 'anos' ? (currentLanguage === 'pt' ? 'anos' : 'years') : (currentLanguage === 'pt' ? 'meses' : 'months');
+    document.getElementById('periodDisplay').textContent = value + ' ' + unitText;
     calculate();
 });
 
@@ -443,8 +449,9 @@ document.getElementById('amount')?.addEventListener('paste', function(e) {
 document.getElementById('periodValue')?.addEventListener('input', function() {
     const value = parseInt(this.value) || 0;
     document.getElementById('periodSlider').value = value;
-    const monthsText = currentLanguage === 'pt' ? 'meses' : 'months';
-    document.getElementById('periodDisplay').textContent = value + ' ' + monthsText;
+    const periodUnit = document.getElementById('periodUnit')?.value || 'meses';
+    const unitText = periodUnit === 'anos' ? (currentLanguage === 'pt' ? 'anos' : 'years') : (currentLanguage === 'pt' ? 'meses' : 'months');
+    document.getElementById('periodDisplay').textContent = value + ' ' + unitText;
 });
 
 document.getElementById('nominalRate')?.addEventListener('input', function() {
@@ -760,6 +767,7 @@ function resetForm() {
     
     document.getElementById('periodValue').value = '12';
     document.getElementById('periodSlider').value = '12';
+    document.getElementById('periodUnit').value = 'meses';
     const monthsText = currentLanguage === 'pt' ? 'meses' : 'months';
     document.getElementById('periodDisplay').textContent = '12 ' + monthsText;
     
@@ -819,7 +827,12 @@ function closeInfo() {
 
 document.getElementById('amount')?.addEventListener('input', calculate);
 document.getElementById('periodValue')?.addEventListener('input', calculate);
-document.getElementById('periodUnit')?.addEventListener('change', calculate);
+document.getElementById('periodUnit')?.addEventListener('change', function() {
+    const value = parseInt(document.getElementById('periodValue').value) || 0;
+    const unitText = this.value === 'anos' ? (currentLanguage === 'pt' ? 'anos' : 'years') : (currentLanguage === 'pt' ? 'meses' : 'months');
+    document.getElementById('periodDisplay').textContent = value + ' ' + unitText;
+    calculate();
+});
 document.getElementById('nominalRate')?.addEventListener('input', calculate);
 document.getElementById('taegInput')?.addEventListener('input', calculate);
 
