@@ -1231,6 +1231,10 @@ input[type="checkbox"] {
         font-size: 1.1rem;
     }
 
+    .subtitle {
+        font-size: 0.75rem;
+    }
+
     .results-grid {
         grid-template-columns: 1fr;
     }
@@ -1316,7 +1320,7 @@ input[type="checkbox"] {
     }
 
     h1 {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
     }
 
     h2 {
@@ -1325,6 +1329,10 @@ input[type="checkbox"] {
 
     h3 {
         font-size: 1rem;
+    }
+
+    .subtitle {
+        font-size: 0.65rem;
     }
 
     .form-group {
