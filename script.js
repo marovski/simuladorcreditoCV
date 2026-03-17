@@ -635,6 +635,12 @@ function calculate() {
     document.getElementById('summaryContent').innerHTML = summaryHTML;
     document.getElementById('copyBtn').style.display = 'flex';
     generateAmortizationSchedule(principal, monthlyPayment, monthlyRate, totalMonths);
+    
+    // Update affordability indicator if income has been entered
+    const incomeInput = document.getElementById('incomeInput');
+    if (incomeInput && parseFloat(incomeInput.value) > 0) {
+        updateAffordabilityIndicator();
+    }
 }
 
 // =============================
