@@ -1085,38 +1085,35 @@ function dismissAndroidBanner() {
     const banner = document.getElementById('androidInstallBanner');
     if (banner) banner.style.display = 'none';
 }
+
 // =============================
-// EDGE iOS INSTALL BANNER
+// iOS PWA INSTALL BANNER
 // =============================
 
-function showEdgeIOSBanner() {
-    const ua = navigator.userAgent;
-    // Detect Edge on iOS
-    const isEdgeIOS = /EdgiOS/i.test(ua);
-    const isInStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-    const dismissed = localStorage.getItem('edgeBannerDismissed');
+function showIOSInstallBanner() {
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isInStandalone = window.navigator.standalone === true;
+    const dismissed = localStorage.getItem('iosBannerDismissed');
+    if (!isIOS || isInStandalone || dismissed) return;
 
-    // Only show if on Edge iOS, not already installed, and not dismissed
-    if (!isEdgeIOS || isInStandalone || dismissed) return;
-
-    const banner = document.getElementById('iosInstallBanner'); // Reuse your iOS banner ID
+    const banner = document.getElementById('iosInstallBanner');
     if (!banner) return;
 
+    // Update text based on current language
     const isPt = currentLanguage === 'pt';
-    
-    // Edge iOS specific instructions
-    document.getElementById('iosBannerTitle').textContent = isPt ? 'Instalar no Edge' : 'Install on Edge';
-    
-    // Edge on iOS uses a "three-dot" (horizontal or vertical) or "share" icon depending on version
+    document.getElementById('iosBannerTitle').textContent = isPt ? 'Instalar aplicação' : 'Install app';
     document.getElementById('iosBannerDesc').innerHTML = isPt
-        ? 'Toque no menu <strong style="font-size:1.2rem">···</strong> e selecione <strong>"Adicionar ao ecrã inicial"</strong>'
-        : 'Tap the <strong style="font-size:1.2rem">···</strong> menu and select <strong>"Add to Home Screen"</strong>';
+        ? 'Toque em <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> e depois "Adicionar ao ecrã inicial"'
+        : 'Tap <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> then "Add to Home Screen"';
 
     banner.style.display = 'flex';
 }
 
-// Update your init or timeout to include this
-setTimeout(() => {
-    showIOSInstallBanner(); // For Safari
-    showEdgeIOSBanner();    // For Edge
-}, 2000);
+function dismissIOSBanner() {
+    localStorage.setItem('iosBannerDismissed', '1');
+    const banner = document.getElementById('iosInstallBanner');
+    if (banner) banner.style.display = 'none';
+}
+
+// Show after a short delay so it doesn't clash with page load
+setTimeout(showIOSInstallBanner, 2000);
