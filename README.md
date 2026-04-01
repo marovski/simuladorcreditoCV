@@ -3,7 +3,7 @@
 A comprehensive credit simulator web application for calculating loan payments in Cabo Verde. Built with vanilla JavaScript, HTML, and CSS, featuring a modern UI with dark mode and bilingual support (Portuguese & English).
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-3.0-blue)
+![Version](https://img.shields.io/badge/version-4.0-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 ![Languages](https://img.shields.io/badge/languages-PT%20%7C%20EN-blue)
 
@@ -36,6 +36,21 @@ A comprehensive credit simulator web application for calculating loan payments i
   - **Enter**: Calculate
   - **Escape**: Close popup
 - **Success Notifications**: Visual feedback for user actions
+
+## 📲 Progressive Web App (PWA)
+
+The app can be installed directly on your device for a native-like experience:
+
+- **Install on Android/Desktop**: Click the install icon in the browser address bar (Chrome/Edge)
+- **Install on iOS**: Safari → Share → Add to Home Screen
+- **Offline support**: All core assets are cached on first visit — the app works without an internet connection
+- **Standalone mode**: Runs without browser chrome (no address bar) when installed
+
+### 🛠️ Technologies Used (PWA)
+- `manifest.json` — defines app name, theme colors, icons, and display mode
+- `sw.js` — service worker with cache-first strategy for static assets and network-first fallback for everything else
+
+---
 
 ## 🚀 Getting Started
 
@@ -140,9 +155,10 @@ simuladorcreditoCV/
 ├── index.html           # Main HTML file with form and results
 ├── styles.css          # Complete styling with dark mode support
 ├── script.js           # Core calculation logic and interactivity
+├── sw.js               # Service worker for offline support (PWA)
+├── manifest.json       # Web app manifest (PWA)
 ├── favicon.svg         # App icon (finance + CV themed)
-├── README.md           # This file
-└── assets/             # Optional folder for additional resources
+└── README.md           # This file
 ```
 
 ## 🛠️ Technologies Used
@@ -316,6 +332,12 @@ For questions or issues:
 3. Open an issue on GitHub
 
 ## 🎉 Changelog
+
+### Version 4.0
+- 📲 **Progressive Web App (PWA)**: App is now installable on Android, iOS, and desktop
+- 🔌 **Offline Support**: Core assets cached via service worker — works without internet after first visit
+- 🗂️ **Web App Manifest**: Defines app identity, theme colors, and standalone display mode
+- ⚡ **Cache-first strategy**: Instant load for static assets on repeat visits
 
 ### Version 3.0
 - 🌍 **Bilingual Support**: Portuguese and English language toggle

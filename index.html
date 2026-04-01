@@ -308,6 +308,18 @@
         </div>
     </div>
 
+    <!-- iOS PWA Install Banner -->
+    <div id="iosInstallBanner" class="ios-install-banner" style="display:none" role="complementary" aria-label="Install app">
+        <div class="ios-install-banner__content">
+            <img src="favicon.svg" alt="App icon" class="ios-install-banner__icon">
+            <div class="ios-install-banner__text">
+                <strong id="iosBannerTitle">Instalar aplicação</strong>
+                <span id="iosBannerDesc">Toque em <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> e depois "Adicionar ao ecrã inicial"</span>
+            </div>
+        </div>
+        <button class="ios-install-banner__close" onclick="dismissIOSBanner()" aria-label="Fechar">✕</button>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
     <script>

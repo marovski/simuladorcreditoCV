@@ -1033,3 +1033,35 @@ function init() {
 
 // Start the app
 init();
+
+// =============================
+// iOS PWA INSTALL BANNER
+// =============================
+
+function showIOSInstallBanner() {
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isInStandalone = window.navigator.standalone === true;
+    const dismissed = localStorage.getItem('iosBannerDismissed');
+    if (!isIOS || isInStandalone || dismissed) return;
+
+    const banner = document.getElementById('iosInstallBanner');
+    if (!banner) return;
+
+    // Update text based on current language
+    const isPt = currentLanguage === 'pt';
+    document.getElementById('iosBannerTitle').textContent = isPt ? 'Instalar aplicação' : 'Install app';
+    document.getElementById('iosBannerDesc').innerHTML = isPt
+        ? 'Toque em <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> e depois "Adicionar ao ecrã inicial"'
+        : 'Tap <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> then "Add to Home Screen"';
+
+    banner.style.display = 'flex';
+}
+
+function dismissIOSBanner() {
+    localStorage.setItem('iosBannerDismissed', '1');
+    const banner = document.getElementById('iosInstallBanner');
+    if (banner) banner.style.display = 'none';
+}
+
+// Show after a short delay so it doesn't clash with page load
+setTimeout(showIOSInstallBanner, 2000);
