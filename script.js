@@ -1035,6 +1035,58 @@ function init() {
 init();
 
 // =============================
+// ANDROID / DESKTOP INSTALL PROMPT
+// =============================
+
+let deferredInstallPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const dismissed = localStorage.getItem('androidBannerDismissed');
+    if (isStandalone || dismissed) return;
+
+    setTimeout(() => {
+        const banner = document.getElementById('androidInstallBanner');
+        if (!banner) return;
+
+        const isPt = currentLanguage === 'pt';
+        document.getElementById('androidBannerTitle').textContent = isPt ? 'Instalar aplicação' : 'Install app';
+        document.getElementById('androidBannerDesc').textContent = isPt
+            ? 'Adicione ao ecrã inicial para acesso rápido e uso offline.'
+            : 'Add to your home screen for quick access and offline use.';
+        document.getElementById('androidInstallBtn').textContent = isPt ? 'Instalar' : 'Install';
+
+        banner.style.display = 'flex';
+    }, 2000);
+});
+
+window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    const banner = document.getElementById('androidInstallBanner');
+    if (banner) banner.style.display = 'none';
+});
+
+async function triggerAndroidInstall() {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    const { outcome } = await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    if (outcome === 'accepted') {
+        const banner = document.getElementById('androidInstallBanner');
+        if (banner) banner.style.display = 'none';
+    }
+}
+
+function dismissAndroidBanner() {
+    localStorage.setItem('androidBannerDismissed', '1');
+    const banner = document.getElementById('androidInstallBanner');
+    if (banner) banner.style.display = 'none';
+}
+
+// =============================
 // iOS PWA INSTALL BANNER
 // =============================
 

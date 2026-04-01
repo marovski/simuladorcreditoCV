@@ -1438,6 +1438,30 @@ input[type="checkbox"] {
     line-height: 1.4;
 }
 
+.ios-install-banner__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+}
+
+.ios-install-banner__install {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.ios-install-banner__install:hover {
+    background: var(--primary-dark);
+}
+
 .ios-install-banner__close {
     background: none;
     border: none;

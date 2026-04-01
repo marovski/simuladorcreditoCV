@@ -305,6 +305,21 @@
         </div>
     </div>
 
+    <!-- Android / Desktop PWA Install Banner -->
+    <div id="androidInstallBanner" class="ios-install-banner" style="display:none" role="complementary" aria-label="Install app">
+        <div class="ios-install-banner__content">
+            <img src="favicon.svg" alt="App icon" class="ios-install-banner__icon">
+            <div class="ios-install-banner__text">
+                <strong id="androidBannerTitle">Instalar aplicação</strong>
+                <span id="androidBannerDesc">Adicione ao ecrã inicial para acesso rápido e uso offline.</span>
+            </div>
+        </div>
+        <div class="ios-install-banner__actions">
+            <button class="ios-install-banner__install" id="androidInstallBtn" onclick="triggerAndroidInstall()">Instalar</button>
+            <button class="ios-install-banner__close" onclick="dismissAndroidBanner()" aria-label="Fechar">✕</button>
+        </div>
+    </div>
+
     <!-- iOS PWA Install Banner -->
     <div id="iosInstallBanner" class="ios-install-banner" style="display:none" role="complementary" aria-label="Install app">
         <div class="ios-install-banner__content">
