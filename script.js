@@ -1091,8 +1091,10 @@ function dismissAndroidBanner() {
 // =============================
 
 function showIOSInstallBanner() {
-    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    const isInStandalone = window.navigator.standalone === true;
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isInStandalone = window.navigator.standalone === true ||
+        window.matchMedia('(display-mode: standalone)').matches;
     const dismissed = localStorage.getItem('iosBannerDismissed');
     if (!isIOS || isInStandalone || dismissed) return;
 
