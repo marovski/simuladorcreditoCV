@@ -320,7 +320,13 @@ MIT License - Feel free to use, modify, and distribute.
 - Portfolio: [marovski.github.io](https://marovski.github.io/)
 - Email: Contact via GitHub
 
-© 2025 Simulador de Crédito Cabo Verde
+© 2026 Simulador de Crédito Cabo Verde
+
+---
+
+## 👨‍💻 Co-Author
+
+**Claude AI**
 
 ---
 
