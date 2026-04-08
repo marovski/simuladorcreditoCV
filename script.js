@@ -26,8 +26,8 @@ const translations = {
             divider: { or: 'OU' },
             taeg: {
                 label: 'Usar TAEG do banco (mais realista)',
-                helper: 'TAEG = taxa que inclui igualmente comissões, seguros, etc. Dá o custo real.',
-                hint: '💡 Com TAEG: Total a Pagar e Juros incluem igualmente todos os custos reais (comissões, seguros, etc.)'
+                helper: 'A TAEG inclui juros + comissões + seguros + outros encargos. Peça ao seu banco.',
+                hint: '💡 Com TAEG (Aviso BCV 3/2013): Total a Pagar e Custo Total incluem todos os encargos reais.'
             },
             buttons: {
                 calculate: '🔢 Calcular',
@@ -38,9 +38,16 @@ const translations = {
         results: {
             title: 'Resultados',
             monthlyPayment: { label: 'Prestação Mensal' },
-            taeg: { label: 'TAEG (Taxa Anual Efetiva)' },
+            taeg: {
+                label: 'TAEG (Taxa Anual Efetiva)',
+                labelTea: 'TEA (só juros, sem encargos)',
+                labelBank: 'TAEG (fornecida pelo banco)'
+            },
             totalPayment: { label: 'Total a Pagar' },
-            totalInterest: { label: 'Total de Juros (Custo do Crédito)' },
+            totalInterest: {
+                label: 'Total de Juros (Custo do Crédito)',
+                labelWithTaeg: 'Custo Total do Crédito (com encargos)'
+            },
             summary: { title: '📋 Resumo' },
             affordability: {
                 title: '💼 Pode pagar?',
@@ -91,6 +98,7 @@ const translations = {
             periodError: 'Período deve ser superior a 0',
             rateError: 'Taxa deve estar entre 0% e 30%',
             taegError: 'TAEG deve ser superior a 0',
+            teaNote: '⚠️ Este valor é a Taxa Efetiva Anual calculada apenas com juros. Não inclui comissões, seguros nem outros encargos. Para o custo real, insira a TAEG fornecida pelo banco.',
             firstCapture: 'Situação anterior capturada! Altere os valores e clique novamente para comparar.',
             comparisonDone: 'Comparação realizada!',
             formReset: 'Formulário reiniciado!',
@@ -127,19 +135,19 @@ const translations = {
                 formula: 'PMT = P × [i × (1+i)ⁿ] ÷ [(1+i)ⁿ - 1]\n\nOnde:\nP = Montante\ni = Taxa mensal (Taxa Nominal ÷ 12)\nn = Número de meses'
             },
             taeg: {
-                title: 'TAEG - Taxa Anual Efetiva Global',
-                description: 'É a taxa real que paga pelo crédito, incluindo todos os custos. É sempre maior que a taxa nominal porque considera a capitalização dos juros. Use esta taxa para comparar propostas de diferentes bancos.',
-                formula: 'TAEG = [(1 + taxa mensal)^12 - 1] × 100\n\nA TAEG considera o efeito da capitalização composta dos juros ao longo do ano.'
+                title: 'TEA vs TAEG — qual a diferença?',
+                description: 'Sem TAEG do banco: o simulador mostra a TEA (Taxa Efetiva Anual), que resulta apenas da capitalização dos juros da TAN. NÃO inclui comissões, seguros nem outros encargos — logo é sempre inferior à TAEG real.\n\nCom TAEG do banco: é exibida a TAEG real conforme o Aviso BCV n.º 3/2013, que inclui todos os encargos da operação de crédito.',
+                formula: 'TEA (estimativa) = [(1 + TAN/12)^12 - 1] × 100\n\nTAEG real (BCV Anexo I) = taxa X que iguala:\nPV(crédito utilizado) = PV(reembolsos + encargos)\n\nTAEG ≥ TEA sempre que existam encargos adicionais.'
             },
             totalPayment: {
                 title: 'Total a Pagar',
-                description: 'É a soma de todas as prestações mensais ao longo do período do crédito. Este valor inclui o montante emprestado mais todos os juros. Se inseriu a TAEG do banco, este valor reflete o custo total real incluindo todas as comissões e encargos.',
-                formula: 'Sem TAEG: Total = Prestação Mensal × Número de Meses\n\nCom TAEG: Total calculado com taxa efetiva que inclui todos os custos'
+                description: 'Sem TAEG do banco: soma de todas as prestações mensais (capital + juros). Não inclui comissões, seguros ou outros encargos cobrados pelo banco.\n\nCom TAEG do banco: estimativa do custo total calculada com base na TAEG, que inclui todos os encargos da operação conforme o Aviso BCV n.º 3/2013.',
+                formula: 'Sem TAEG: Total = Prestação Mensal (TAN) × Nº de Meses\n\nCom TAEG: Total estimado = PMT(TAEG) × Nº de Meses\n(inclui juros + encargos estimados)'
             },
             totalInterest: {
-                title: 'Total de Juros',
-                description: 'É o custo total do crédito - quanto vai pagar a mais além do valor emprestado. Quanto maior o período ou a taxa de juro, maior será este valor. Se inseriu a TAEG, este valor inclui não só os juros mas também todas as comissões, seguros e encargos.',
-                formula: 'Juros = Total a Pagar - Montante Emprestado\n\nCom TAEG: Inclui todos os custos (juros + comissões + seguros)'
+                title: 'Custo do Crédito',
+                description: 'Sem TAEG: diferença entre o total pago e o montante emprestado — representa apenas os juros. Não inclui comissões, seguros ou outros encargos.\n\nCom TAEG: estimativa do custo total do crédito incluindo juros, comissões, seguros e demais encargos, conforme a definição de «Custo total do crédito» do Aviso BCV n.º 3/2013.',
+                formula: 'Custo = Total a Pagar − Montante Emprestado\n\nCom TAEG: inclui todos os encargos (juros + comissões + seguros)'
             }
         }
     },
@@ -178,9 +186,16 @@ const translations = {
         results: {
             title: 'Results',
             monthlyPayment: { label: 'Monthly Payment' },
-            taeg: { label: 'TAEG (Annual Effective Rate)' },
+            taeg: {
+                label: 'TAEG (Annual Effective Rate)',
+                labelTea: 'EAR (interest only, no fees)',
+                labelBank: 'TAEG (provided by bank)'
+            },
             totalPayment: { label: 'Total Payment' },
-            totalInterest: { label: 'Total Interest (Cost of Credit)' },
+            totalInterest: {
+                label: 'Total Interest (Cost of Credit)',
+                labelWithTaeg: 'Total Cost of Credit (incl. charges)'
+            },
             summary: { title: '📋 Summary' },
             affordability: {
                 title: '💼 Can you afford it?',
@@ -231,6 +246,7 @@ const translations = {
             periodError: 'Period must be greater than 0',
             rateError: 'Rate must be between 0% and 30%',
             taegError: 'TAEG must be greater than 0',
+            teaNote: '⚠️ This value is the Effective Annual Rate based on interest only. It does not include fees, insurance or other charges. For the real cost, enter the TAEG provided by your bank.',
             firstCapture: 'Previous situation captured! Change the values and click again to compare.',
             comparisonDone: 'Comparison completed!',
             formReset: 'Form reset!',
@@ -267,19 +283,19 @@ const translations = {
                 formula: 'PMT = P × [i × (1+i)ⁿ] ÷ [(1+i)ⁿ - 1]\n\nWhere:\nP = Credit Amount\ni = Monthly rate (Nominal Rate ÷ 12)\nn = Number of months'
             },
             taeg: {
-                title: 'TAEG - Annual Effective Global Rate',
-                description: 'It is the real rate you pay for credit, including all costs. It is always higher than the nominal rate because it considers the capitalization of interest. Use this rate to compare offers from different banks.',
-                formula: 'TAEG = [(1 + monthly rate)^12 - 1] × 100\n\nTAEG considers the effect of compound capitalization of interest throughout the year.'
+                title: 'EAR vs TAEG — what\'s the difference?',
+                description: 'Without bank TAEG: the simulator shows the EAR (Effective Annual Rate), which only reflects the compounding effect of the nominal interest rate. It does NOT include fees, insurance or other charges — so it is always lower than the real TAEG.\n\nWith bank TAEG: the real TAEG is shown as per BCV Notice 3/2013, which includes all charges associated with the credit.',
+                formula: 'EAR (estimate) = [(1 + TAN/12)^12 - 1] × 100\n\nReal TAEG (BCV Annex I) = rate X where:\nPV(credit used) = PV(repayments + charges)\n\nTAEG ≥ EAR whenever additional charges exist.'
             },
             totalPayment: {
                 title: 'Total Payment',
-                description: 'It is the sum of all monthly payments over the credit period. This value includes the amount borrowed plus all interest. If you entered the bank\'s TAEG, this value reflects the real total cost including all fees and charges.',
-                formula: 'Without TAEG: Total = Monthly Payment × Number of Months\n\nWith TAEG: Total calculated with effective rate that includes all costs'
+                description: 'Without bank TAEG: sum of all monthly payments (principal + interest). Does not include bank fees, insurance or other charges.\n\nWith bank TAEG: estimated total cost based on the TAEG, which includes all charges as per BCV Notice 3/2013.',
+                formula: 'Without TAEG: Total = Monthly Payment (TAN) × No. of Months\n\nWith TAEG: Estimated Total = PMT(TAEG) × No. of Months\n(includes interest + estimated charges)'
             },
             totalInterest: {
-                title: 'Total Interest',
-                description: 'It is the total cost of credit - how much you will pay more than the amount borrowed. The longer the period or the interest rate, the higher this value. If you entered the TAEG, this value includes not only the interest but also all fees, insurance and charges.',
-                formula: 'Interest = Total Payment - Borrowed Amount\n\nWith TAEG: Includes all costs (interest + fees + insurance)'
+                title: 'Cost of Credit',
+                description: 'Without TAEG: difference between the total paid and the amount borrowed — represents interest only. Does not include fees, insurance or other charges.\n\nWith TAEG: estimated total cost of credit including interest, fees, insurance and other charges, as per the definition of "Total cost of credit" in BCV Notice 3/2013.',
+                formula: 'Cost = Total Payment − Amount Borrowed\n\nWith TAEG: includes all charges (interest + fees + insurance)'
             }
         }
     }
@@ -599,6 +615,20 @@ function calculate() {
     document.getElementById('totalPayment').textContent = formatCurrency(totalPayment) + ' CVE';
     document.getElementById('totalInterest').textContent = formatCurrency(totalInterest) + ' CVE';
 
+    // Update result card labels dynamically based on calculation mode
+    const taegCardLabel = document.querySelector('.result-card.green .result-header span[data-i18n]');
+    const interestCardLabel = document.querySelector('.result-card.orange .result-header span[data-i18n]');
+    if (taegCardLabel) {
+        taegCardLabel.textContent = useTaeg && taegInput > 0
+            ? t('results.taeg.labelBank')
+            : t('results.taeg.labelTea');
+    }
+    if (interestCardLabel) {
+        interestCardLabel.textContent = useTaeg && taegInput > 0
+            ? t('results.totalInterest.labelWithTaeg')
+            : t('results.totalInterest.label');
+    }
+
     const methodBadge = document.getElementById('methodBadge');
     if (methodBadge) {
         methodBadge.innerHTML = `<span>✓ ${calculationMethod}</span>`;
@@ -609,7 +639,7 @@ function calculate() {
     const yearText = currentLanguage === 'pt' ? 'anos' : 'years';
     const nominalText = currentLanguage === 'pt' ? 'Taxa Nominal' : 'Nominal Rate';
     const monthlyText = currentLanguage === 'pt' ? 'Taxa Mensal' : 'Monthly Rate';
-    const taegCalcText = currentLanguage === 'pt' ? 'TAEG Calculada' : 'Calculated TAEG';
+    const taegCalcText = currentLanguage === 'pt' ? 'TEA (só juros)' : 'EAR (interest only)';
     const taegProvText = currentLanguage === 'pt' ? 'TAEG (fornecida)' : 'TAEG (provided)';
     const costsText = currentLanguage === 'pt' ? 'custos totais reais' : 'real total costs';
     const baseText = currentLanguage === 'pt' ? 'base para PMT' : 'basis for PMT';
@@ -629,6 +659,7 @@ function calculate() {
             <p><strong>${nominalText}:</strong> ${rate}% ${aoAnoText}</p>
             <p><strong>${monthlyText}:</strong> ${(rate / 12).toFixed(2)}%</p>
             <p><strong>${taegCalcText}:</strong> ${taeg.toFixed(2)}%</p>
+            <p class="summary-note">${t('messages.teaNote')}</p>
         `;
     }
     
