@@ -734,6 +734,17 @@ input[type="checkbox"] {
     font-weight: 600;
 }
 
+.summary-note {
+    font-size: 0.8rem;
+    color: var(--warning, #d97706);
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: color-mix(in srgb, var(--warning, #d97706) 10%, transparent);
+    border-left: 3px solid var(--warning, #d97706);
+    border-radius: 0 4px 4px 0;
+    line-height: 1.4;
+}
+
 /* New Sections: Affordability, Amortization, Transparency */
 
 .section-header {
