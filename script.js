@@ -40,7 +40,7 @@ const translations = {
             monthlyPayment: { label: 'Prestação Mensal' },
             taeg: {
                 label: 'TAEG (Taxa Anual Efetiva)',
-                labelTea: 'TEA (só juros, sem encargos)',
+                labelEst: 'TAEG (estimativa, s/ encargos)',
                 labelBank: 'TAEG (fornecida pelo banco)'
             },
             totalPayment: { label: 'Total a Pagar' },
@@ -98,7 +98,7 @@ const translations = {
             periodError: 'Período deve ser superior a 0',
             rateError: 'Taxa deve estar entre 0% e 30%',
             taegError: 'TAEG deve ser superior a 0',
-            teaNote: '⚠️ Este valor é a Taxa Efetiva Anual calculada apenas com juros. Não inclui comissões, seguros nem outros encargos. Para o custo real, insira a TAEG fornecida pelo banco.',
+            taegEstNote: '⚠️ TAEG estimada com base na TAN. Não inclui comissões, seguros nem outros encargos. Para o custo real, insira a TAEG fornecida pelo banco.',
             firstCapture: 'Situação anterior capturada! Altere os valores e clique novamente para comparar.',
             comparisonDone: 'Comparação realizada!',
             formReset: 'Formulário reiniciado!',
@@ -107,6 +107,14 @@ const translations = {
             executeFirst: 'Execute uma simulação primeiro',
             taegBank: 'TAEG Fornecida pelo Banco',
             nominalRate: 'Taxa Nominal'
+        },
+        fiscal: {
+            title: '🏛️ Regime Fiscal — Imposto de Selo',
+            isJuros: 'IS sobre Juros (3,5%)',
+            isCapital: 'IS sobre Capital (0,5%)',
+            isTotal: 'Total Imposto de Selo',
+            custoTotal: 'Custo Total c/ Impostos',
+            note: 'Conforme o Código do Imposto de Selo de Cabo Verde, aplicável a operações de crédito. Valores estimados — confirme com o banco.'
         },
         info: {
             amount: {
@@ -148,6 +156,11 @@ const translations = {
                 title: 'Custo do Crédito',
                 description: 'Sem TAEG: diferença entre o total pago e o montante emprestado — representa apenas os juros. Não inclui comissões, seguros ou outros encargos.\n\nCom TAEG: estimativa do custo total do crédito incluindo juros, comissões, seguros e demais encargos, conforme a definição de «Custo total do crédito» do Aviso BCV n.º 3/2013.',
                 formula: 'Custo = Total a Pagar − Montante Emprestado\n\nCom TAEG: inclui todos os encargos (juros + comissões + seguros)'
+            },
+            impostoSelo: {
+                title: 'Imposto de Selo (Regime Fiscal CV)',
+                description: 'Em Cabo Verde, as operações de crédito estão sujeitas ao Imposto de Selo conforme o Código do Imposto de Selo:\n\n• 3,5% sobre os juros — aplicado ao total de juros pagos durante o período do crédito.\n\n• 0,5% sobre o capital utilizado — aplicado ao montante total do empréstimo.\n\nEste imposto acresce ao custo do crédito e deve ser considerado no planeamento financeiro.',
+                formula: 'IS sobre Juros = Total de Juros × 3,5%\nIS sobre Capital = Montante × 0,5%\nTotal IS = IS Juros + IS Capital\n\nCusto Total c/ Impostos = Total a Pagar + Total IS'
             }
         }
     },
@@ -188,7 +201,7 @@ const translations = {
             monthlyPayment: { label: 'Monthly Payment' },
             taeg: {
                 label: 'TAEG (Annual Effective Rate)',
-                labelTea: 'EAR (interest only, no fees)',
+                labelEst: 'TAEG (estimate, excl. charges)',
                 labelBank: 'TAEG (provided by bank)'
             },
             totalPayment: { label: 'Total Payment' },
@@ -246,7 +259,7 @@ const translations = {
             periodError: 'Period must be greater than 0',
             rateError: 'Rate must be between 0% and 30%',
             taegError: 'TAEG must be greater than 0',
-            teaNote: '⚠️ This value is the Effective Annual Rate based on interest only. It does not include fees, insurance or other charges. For the real cost, enter the TAEG provided by your bank.',
+            taegEstNote: '⚠️ TAEG estimated from TAN only. Does not include fees, insurance or other charges. For the real cost, enter the TAEG provided by your bank.',
             firstCapture: 'Previous situation captured! Change the values and click again to compare.',
             comparisonDone: 'Comparison completed!',
             formReset: 'Form reset!',
@@ -296,7 +309,20 @@ const translations = {
                 title: 'Cost of Credit',
                 description: 'Without TAEG: difference between the total paid and the amount borrowed — represents interest only. Does not include fees, insurance or other charges.\n\nWith TAEG: estimated total cost of credit including interest, fees, insurance and other charges, as per the definition of "Total cost of credit" in BCV Notice 3/2013.',
                 formula: 'Cost = Total Payment − Amount Borrowed\n\nWith TAEG: includes all charges (interest + fees + insurance)'
+            },
+            impostoSelo: {
+                title: 'Stamp Tax — Fiscal Regime CV',
+                description: 'In Cape Verde, credit operations are subject to Stamp Tax (Imposto de Selo) under the Cape Verde Stamp Tax Code:\n\n• 3.5% on interest — applied to the total interest paid over the credit period.\n\n• 0.5% on capital used — applied to the total loan amount.\n\nThis tax is in addition to the cost of credit and should be factored into financial planning.',
+                formula: 'IS on Interest = Total Interest × 3.5%\nIS on Capital = Principal × 0.5%\nTotal Stamp Tax = IS Interest + IS Capital\n\nTotal Cost incl. Tax = Total Payment + Total Stamp Tax'
             }
+        },
+        fiscal: {
+            title: '🏛️ Fiscal Regime — Stamp Tax',
+            isJuros: 'Stamp Tax on Interest (3.5%)',
+            isCapital: 'Stamp Tax on Capital (0.5%)',
+            isTotal: 'Total Stamp Tax',
+            custoTotal: 'Total Cost incl. Tax',
+            note: 'As per the Cape Verde Stamp Tax Code, applicable to credit operations. Estimated values — confirm with your bank.'
         }
     }
 };
@@ -621,13 +647,33 @@ function calculate() {
     if (taegCardLabel) {
         taegCardLabel.textContent = useTaeg && taegInput > 0
             ? t('results.taeg.labelBank')
-            : t('results.taeg.labelTea');
+            : t('results.taeg.labelEst');
     }
     if (interestCardLabel) {
         interestCardLabel.textContent = useTaeg && taegInput > 0
             ? t('results.totalInterest.labelWithTaeg')
             : t('results.totalInterest.label');
     }
+
+    // Imposto de Selo
+    const isJuros = totalInterest * 0.035;
+    const isCapital = principal * 0.005;
+    const isTotal = isJuros + isCapital;
+    const custoTotalComIS = totalPayment + isTotal;
+
+    document.getElementById('isJuros').textContent = formatCurrency(isJuros) + ' CVE';
+    document.getElementById('isCapital').textContent = formatCurrency(isCapital) + ' CVE';
+    document.getElementById('isTotal').textContent = formatCurrency(isTotal) + ' CVE';
+    document.getElementById('custoTotalComIS').textContent = formatCurrency(custoTotalComIS) + ' CVE';
+    document.getElementById('fiscalNote').textContent = t('fiscal.note');
+    document.getElementById('fiscalSection').style.display = 'block';
+
+    // Update fiscal section labels (language-aware)
+    document.querySelector('#fiscalSection h3').textContent = t('fiscal.title');
+    document.getElementById('labelIsJuros').textContent = t('fiscal.isJuros');
+    document.getElementById('labelIsCapital').textContent = t('fiscal.isCapital');
+    document.getElementById('labelIsTotal').textContent = t('fiscal.isTotal');
+    document.getElementById('labelCustoTotal').textContent = t('fiscal.custoTotal');
 
     const methodBadge = document.getElementById('methodBadge');
     if (methodBadge) {
@@ -639,7 +685,7 @@ function calculate() {
     const yearText = currentLanguage === 'pt' ? 'anos' : 'years';
     const nominalText = currentLanguage === 'pt' ? 'Taxa Nominal' : 'Nominal Rate';
     const monthlyText = currentLanguage === 'pt' ? 'Taxa Mensal' : 'Monthly Rate';
-    const taegCalcText = currentLanguage === 'pt' ? 'TEA (só juros)' : 'EAR (interest only)';
+    const taegCalcText = currentLanguage === 'pt' ? 'TAEG (estimativa, s/ encargos)' : 'TAEG (estimate, excl. charges)';
     const taegProvText = currentLanguage === 'pt' ? 'TAEG (fornecida)' : 'TAEG (provided)';
     const costsText = currentLanguage === 'pt' ? 'custos totais reais' : 'real total costs';
     const baseText = currentLanguage === 'pt' ? 'base para PMT' : 'basis for PMT';
@@ -659,7 +705,7 @@ function calculate() {
             <p><strong>${nominalText}:</strong> ${rate}% ${aoAnoText}</p>
             <p><strong>${monthlyText}:</strong> ${(rate / 12).toFixed(2)}%</p>
             <p><strong>${taegCalcText}:</strong> ${taeg.toFixed(2)}%</p>
-            <p class="summary-note">${t('messages.teaNote')}</p>
+            <p class="summary-note">${t('messages.taegEstNote')}</p>
         `;
     }
     

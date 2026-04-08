@@ -784,6 +784,84 @@ input[type="checkbox"] {
     transform: rotate(180deg);
 }
 
+/* Fiscal Section — Imposto de Selo */
+.fiscal-section {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: color-mix(in srgb, var(--warning) 8%, var(--card-bg));
+    border: 1px solid color-mix(in srgb, var(--warning) 30%, transparent);
+    border-radius: 12px;
+}
+
+.fiscal-section .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.fiscal-section h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    flex: 1;
+    margin: 0;
+}
+
+.fiscal-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.fiscal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: var(--card-bg);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.fiscal-row strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.fiscal-row--total {
+    border-top: 1px solid color-mix(in srgb, var(--warning) 40%, transparent);
+    background: color-mix(in srgb, var(--warning) 12%, var(--card-bg));
+    font-weight: 600;
+    color: var(--warning);
+}
+
+.fiscal-row--total strong {
+    color: var(--warning);
+}
+
+.fiscal-row--grand {
+    background: var(--warning);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 8px;
+}
+
+.fiscal-row--grand strong {
+    color: #fff;
+    font-size: 1rem;
+}
+
+.fiscal-note {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.75rem;
+    line-height: 1.4;
+    font-style: italic;
+}
+
 /* Affordability Section */
 .affordability-section {
     margin-top: 1.5rem;

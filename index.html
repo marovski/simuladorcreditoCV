@@ -226,6 +226,33 @@
                     <div id="summaryContent"></div>
                 </div>
 
+                <!-- Imposto de Selo -->
+                <div class="fiscal-section" id="fiscalSection" style="display:none">
+                    <div class="section-header">
+                        <h3>🏛️ Regime Fiscal — Imposto de Selo</h3>
+                        <button type="button" class="info-btn" onclick="showInfo('impostoSelo')" style="font-size:1rem">ℹ️</button>
+                    </div>
+                    <div class="fiscal-grid">
+                        <div class="fiscal-row">
+                            <span id="labelIsJuros">IS sobre Juros (3,5%)</span>
+                            <strong id="isJuros">0 CVE</strong>
+                        </div>
+                        <div class="fiscal-row">
+                            <span id="labelIsCapital">IS sobre Capital (0,5%)</span>
+                            <strong id="isCapital">0 CVE</strong>
+                        </div>
+                        <div class="fiscal-row fiscal-row--total">
+                            <span id="labelIsTotal">Total Imposto de Selo</span>
+                            <strong id="isTotal">0 CVE</strong>
+                        </div>
+                        <div class="fiscal-row fiscal-row--grand">
+                            <span id="labelCustoTotal">Custo Total c/ Impostos</span>
+                            <strong id="custoTotalComIS">0 CVE</strong>
+                        </div>
+                    </div>
+                    <p class="fiscal-note" id="fiscalNote"></p>
+                </div>
+
                 <!-- Affordability Check -->
                 <div class="affordability-section">
                     <div class="section-header">
