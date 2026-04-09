@@ -854,6 +854,16 @@ input[type="checkbox"] {
     font-size: 1rem;
 }
 
+.fiscal-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 99px;
+    background: color-mix(in srgb, var(--warning) 15%, transparent);
+    color: var(--warning);
+    border: 1px solid color-mix(in srgb, var(--warning) 40%, transparent);
+}
+
 .fiscal-note {
     font-size: 0.75rem;
     color: var(--text-secondary);
