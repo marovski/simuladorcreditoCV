@@ -147,7 +147,7 @@ const translations = {
             taeg: {
                 title: 'TAN vs TAEG — qual a diferença?',
                 description: 'Sem TAEG do banco: o cartão mostra "TAN (sem encargos)". A Taxa Anual Nominal é a taxa de juro base do contrato — não inclui comissões, seguros nem outros encargos. É o ponto de partida do cálculo, não o custo real.\n\nCom TAEG do banco: é exibida a TAEG real conforme o Aviso BCV n.º 3/2013, que inclui todos os encargos da operação. Use a TAEG para comparar propostas de diferentes bancos.',
-                formula: 'Sem TAEG: exibida a TAN informada\n\nCom TAEG (BCV Anexo I) = taxa X que iguala:\nPV(crédito utilizado) = PV(reembolsos + todos os encargos)\n\nTAEG ≥ TAN sempre que existam encargos adicionais.'
+                formula: 'Sem TAEG: exibida a TAN tal como introduzida (sem cálculo)\n\nCom TAEG (BCV Anexo I) = taxa X que iguala:\nPV(crédito utilizado) = PV(reembolsos + todos os encargos)\n\nTAEG ≥ TAN sempre que existam encargos adicionais.'
             },
             totalPayment: {
                 title: 'Total a Pagar',
@@ -300,7 +300,7 @@ const translations = {
             taeg: {
                 title: 'TAN vs TAEG — what\'s the difference?',
                 description: 'Without bank TAEG: the card shows "TAN (excl. charges)". The Nominal Annual Rate is the base interest rate in the contract — it does not include fees, insurance or other charges. It is the starting point of the calculation, not the real cost.\n\nWith bank TAEG: the real TAEG is shown as per BCV Notice 3/2013, which includes all charges. Use the TAEG to compare offers from different banks.',
-                formula: 'Without TAEG: TAN as entered\n\nWith TAEG (BCV Annex I) = rate X where:\nPV(credit used) = PV(repayments + all charges)\n\nTAEG ≥ TAN whenever additional charges exist.'
+                formula: 'Without TAEG: TAN displayed as entered (no calculation)\n\nWith TAEG (BCV Annex I) = rate X where:\nPV(credit used) = PV(repayments + all charges)\n\nTAEG ≥ TAN whenever additional charges exist.'
             },
             totalPayment: {
                 title: 'Total Payment',
@@ -621,7 +621,7 @@ function calculate() {
         totalInterest = totalPayment - principal;
     } else {
         calculationMethod = t('messages.nominalRate');
-        taeg = (Math.pow(1 + monthlyRate, 12) - 1) * 100;
+        taeg = rate;
         
         totalPayment = monthlyPayment * totalMonths;
         totalInterest = totalPayment - principal;
