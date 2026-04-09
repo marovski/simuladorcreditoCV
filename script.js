@@ -40,7 +40,7 @@ const translations = {
             monthlyPayment: { label: 'Prestação Mensal' },
             taeg: {
                 label: 'TAEG (Taxa Anual Efetiva)',
-                labelEst: 'TAEG (estimativa, s/ encargos)',
+                labelEst: 'TAN (sem encargos)',
                 labelBank: 'TAEG (fornecida pelo banco)'
             },
             totalPayment: { label: 'Total a Pagar' },
@@ -114,7 +114,9 @@ const translations = {
             isCapital: 'IS sobre Capital (0,5%)',
             isTotal: 'Total Imposto de Selo',
             custoTotal: 'Custo Total c/ Impostos',
-            note: 'Conforme o Código do Imposto de Selo de Cabo Verde, aplicável a operações de crédito. Valores estimados — confirme com o banco.'
+            note: 'Conforme o Código do Imposto de Selo de Cabo Verde, aplicável a operações de crédito. Valores estimados — confirme com o banco.',
+            tanOnlyBadge: 'Calculado com TAN (sem encargos)',
+            tanOnlyNote: 'Imposto de Selo calculado apenas sobre os juros da TAN. Não inclui comissões, seguros ou outros encargos. Para valores mais precisos, introduza a TAEG fornecida pelo banco.'
         },
         info: {
             amount: {
@@ -201,7 +203,7 @@ const translations = {
             monthlyPayment: { label: 'Monthly Payment' },
             taeg: {
                 label: 'TAEG (Annual Effective Rate)',
-                labelEst: 'TAEG (estimate, excl. charges)',
+                labelEst: 'TAN (excl. charges)',
                 labelBank: 'TAEG (provided by bank)'
             },
             totalPayment: { label: 'Total Payment' },
@@ -322,7 +324,9 @@ const translations = {
             isCapital: 'Stamp Tax on Capital (0.5%)',
             isTotal: 'Total Stamp Tax',
             custoTotal: 'Total Cost incl. Tax',
-            note: 'As per the Cape Verde Stamp Tax Code, applicable to credit operations. Estimated values — confirm with your bank.'
+            note: 'As per the Cape Verde Stamp Tax Code, applicable to credit operations. Estimated values — confirm with your bank.',
+            tanOnlyBadge: 'Calculated with TAN (excl. charges)',
+            tanOnlyNote: 'Stamp Tax calculated on TAN interest only. Does not include fees, insurance or other charges. For more accurate values, enter the TAEG provided by your bank.'
         }
     }
 };
@@ -665,7 +669,6 @@ function calculate() {
     document.getElementById('isCapital').textContent = formatCurrency(isCapital) + ' CVE';
     document.getElementById('isTotal').textContent = formatCurrency(isTotal) + ' CVE';
     document.getElementById('custoTotalComIS').textContent = formatCurrency(custoTotalComIS) + ' CVE';
-    document.getElementById('fiscalNote').textContent = t('fiscal.note');
     document.getElementById('fiscalSection').style.display = 'block';
 
     // Update fiscal section labels (language-aware)
@@ -674,6 +677,18 @@ function calculate() {
     document.getElementById('labelIsCapital').textContent = t('fiscal.isCapital');
     document.getElementById('labelIsTotal').textContent = t('fiscal.isTotal');
     document.getElementById('labelCustoTotal').textContent = t('fiscal.custoTotal');
+
+    // Show/hide TAN-only badge and note based on whether bank TAEG was entered
+    const fiscalBadge = document.getElementById('fiscalBadge');
+    const fiscalNote = document.getElementById('fiscalNote');
+    if (useTaeg && taegInput > 0) {
+        fiscalBadge.style.display = 'none';
+        fiscalNote.textContent = t('fiscal.note');
+    } else {
+        fiscalBadge.textContent = t('fiscal.tanOnlyBadge');
+        fiscalBadge.style.display = 'inline-block';
+        fiscalNote.textContent = t('fiscal.tanOnlyNote');
+    }
 
     const methodBadge = document.getElementById('methodBadge');
     if (methodBadge) {
@@ -685,7 +700,7 @@ function calculate() {
     const yearText = currentLanguage === 'pt' ? 'anos' : 'years';
     const nominalText = currentLanguage === 'pt' ? 'Taxa Nominal' : 'Nominal Rate';
     const monthlyText = currentLanguage === 'pt' ? 'Taxa Mensal' : 'Monthly Rate';
-    const taegCalcText = currentLanguage === 'pt' ? 'TAEG (estimativa, s/ encargos)' : 'TAEG (estimate, excl. charges)';
+    const taegCalcText = currentLanguage === 'pt' ? 'TAN (sem encargos)' : 'TAN (excl. charges)';
     const taegProvText = currentLanguage === 'pt' ? 'TAEG (fornecida)' : 'TAEG (provided)';
     const costsText = currentLanguage === 'pt' ? 'custos totais reais' : 'real total costs';
     const baseText = currentLanguage === 'pt' ? 'base para PMT' : 'basis for PMT';
