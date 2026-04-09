@@ -137,8 +137,8 @@ const translations = {
             },
             taegInput: {
                 title: 'TAEG Fornecida pelo Banco',
-                description: 'A TAEG (Taxa Anual Efetiva Global) inclui todos os custos do crédito: juros, comissões, seguros e outros encargos. Quando inserir a TAEG do banco, o Total a Pagar e os Juros serão recalculados para refletir o custo real. A Prestação Mensal mantém-se baseada na Taxa Nominal (é o valor base sem custos adicionais).',
-                formula: 'Taxa mensal efetiva = (1 + TAEG/100)^(1/12) - 1\n\nUsada para calcular o custo total real do crédito.'
+                description: 'A TAEG (Taxa Anual Efetiva Global) inclui todos os custos do crédito: juros, comissões, seguros e Imposto de Selo. É definida pelo Aviso BCV n.º 3/2013 (Anexo I) como a taxa que iguala o valor atual do crédito ao valor atual de todos os reembolsos e encargos.\n\nA Prestação Mensal mantém-se calculada com a TAN. A TAEG é usada para estimar o Custo Total real.',
+                formula: 'Definição BCV (Aviso 3/2013, Anexo I):\n∑ Cⱼ × (1 + TAEG)^(−tj) = ∑ Dₗ × (1 + TAEG)^(−sl)\n\nOnde:\n  Cⱼ = montante utilizado do crédito\n  Dₗ = reembolsos e encargos (prestações + IS + comissões)\n  tj, sl = intervalos de tempo em anos\n\nAplicação no simulador:\n  i_mensal = (1 + TAEG/100)^(1/12) − 1\n  Custo Total = PMT(i_mensal, n, P) × n'
             },
             monthlyPayment: {
                 title: 'Prestação Mensal',
@@ -290,8 +290,8 @@ const translations = {
             },
             taegInput: {
                 title: 'TAEG Provided by the Bank',
-                description: 'TAEG (Annual Effective Global Rate) includes all credit costs: interest, fees, insurance and other charges. When you enter the bank\'s TAEG, the Total Payment and Interest will be recalculated to reflect the real cost. The Monthly Payment remains based on the Nominal Rate (it is the base value without additional costs).',
-                formula: 'Effective monthly rate = (1 + TAEG/100)^(1/12) - 1\n\nUsed to calculate the real total cost of credit.'
+                description: 'TAEG (Annual Effective Global Rate) includes all credit costs: interest, fees, insurance and Stamp Tax. It is defined by BCV Notice 3/2013 (Annex I) as the rate that equates the present value of the credit to the present value of all repayments and charges.\n\nThe Monthly Payment remains based on TAN. The TAEG is used to estimate the real Total Cost.',
+                formula: 'BCV Definition (Notice 3/2013, Annex I):\n∑ Cⱼ × (1 + TAEG)^(−tj) = ∑ Dₗ × (1 + TAEG)^(−sl)\n\nWhere:\n  Cⱼ = credit amount used\n  Dₗ = repayments and charges (payments + ST + fees)\n  tj, sl = time intervals in years\n\nSimulator application:\n  i_monthly = (1 + TAEG/100)^(1/12) − 1\n  Total Cost = PMT(i_monthly, n, P) × n'
             },
             monthlyPayment: {
                 title: 'Monthly Payment',
