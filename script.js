@@ -112,11 +112,12 @@ const translations = {
             title: '🏛️ Regime Fiscal — Imposto de Selo',
             isJuros: 'IS sobre Juros (3,5%)',
             isCapital: 'IS sobre Capital (0,5%)',
-            isTotal: 'Total Imposto de Selo',
-            custoTotal: 'Custo Total c/ Impostos',
-            note: 'Conforme o Código do Imposto de Selo de Cabo Verde, aplicável a operações de crédito. Valores estimados — confirme com o banco.',
-            tanOnlyBadge: 'Calculado com TAN (sem encargos)',
-            tanOnlyNote: 'Imposto de Selo calculado apenas sobre os juros da TAN. Não inclui comissões, seguros ou outros encargos. Para valores mais precisos, introduza a TAEG fornecida pelo banco.'
+            isTotal: 'Total Imposto de Selo (estimativa)',
+            custoTotal: 'Custo Total Estimado c/ IS',
+            note: 'Conforme o Código do Imposto de Selo de Cabo Verde, aplicável a operações de crédito.',
+            tanOnlyBadge: 'Estimativa s/ TAEG',
+            tanOnlyNote: '⚠️ Estimativa calculada com base na TAN. O IS real já está incluído na TAEG fornecida pelo banco — introduza a TAEG para ver o custo total correto.',
+            includedInTaeg: '✅ O Imposto de Selo já está incluído na TAEG fornecida pelo banco. A TAEG reflete o custo total real do crédito, englobando juros, comissões e impostos.'
         },
         info: {
             amount: {
@@ -161,8 +162,8 @@ const translations = {
             },
             impostoSelo: {
                 title: 'Imposto de Selo (Regime Fiscal CV)',
-                description: 'Em Cabo Verde, as operações de crédito estão sujeitas ao Imposto de Selo conforme o Código do Imposto de Selo:\n\n• 3,5% sobre os juros — aplicado ao total de juros pagos durante o período do crédito.\n\n• 0,5% sobre o capital utilizado — aplicado ao montante total do empréstimo.\n\nEste imposto acresce ao custo do crédito e deve ser considerado no planeamento financeiro.',
-                formula: 'IS sobre Juros = Total de Juros × 3,5%\nIS sobre Capital = Montante × 0,5%\nTotal IS = IS Juros + IS Capital\n\nCusto Total c/ Impostos = Total a Pagar + Total IS'
+                description: 'Em Cabo Verde, as operações de crédito estão sujeitas ao Imposto de Selo (IS) conforme o Código do Imposto de Selo:\n\n• 3,5% sobre os juros\n• 0,5% sobre o capital utilizado\n\nO IS já está incluído na TAEG fornecida pelo banco — a TAEG reflete o custo total real do crédito, englobando juros, comissões e impostos.\n\nQuando só é introduzida a TAN, o simulador apresenta uma estimativa do IS para dar uma ideia do custo fiscal adicional. Para o valor real, solicite a TAEG ao banco.',
+                formula: 'Estimativa IS (só com TAN):\nIS sobre Juros = Total Juros × 3,5%\nIS sobre Capital = Montante × 0,5%\n\nCom TAEG do banco:\nIS já incluído → não somar novamente'
             }
         }
     },
@@ -314,19 +315,20 @@ const translations = {
             },
             impostoSelo: {
                 title: 'Stamp Tax — Fiscal Regime CV',
-                description: 'In Cape Verde, credit operations are subject to Stamp Tax (Imposto de Selo) under the Cape Verde Stamp Tax Code:\n\n• 3.5% on interest — applied to the total interest paid over the credit period.\n\n• 0.5% on capital used — applied to the total loan amount.\n\nThis tax is in addition to the cost of credit and should be factored into financial planning.',
-                formula: 'IS on Interest = Total Interest × 3.5%\nIS on Capital = Principal × 0.5%\nTotal Stamp Tax = IS Interest + IS Capital\n\nTotal Cost incl. Tax = Total Payment + Total Stamp Tax'
+                description: 'In Cape Verde, credit operations are subject to Stamp Tax (IS) under the Cape Verde Stamp Tax Code:\n\n• 3.5% on interest\n• 0.5% on capital used\n\nStamp Tax is already included in the TAEG provided by the bank — the TAEG reflects the real total cost of credit, covering interest, fees and taxes.\n\nWhen only TAN is entered, the simulator shows an estimated IS to illustrate the fiscal cost. For the real value, ask your bank for the TAEG.',
+                formula: 'Estimated IS (TAN only):\nIS on Interest = Total Interest × 3.5%\nIS on Capital = Principal × 0.5%\n\nWith bank TAEG:\nIS already included → do not add again'
             }
         },
         fiscal: {
             title: '🏛️ Fiscal Regime — Stamp Tax',
             isJuros: 'Stamp Tax on Interest (3.5%)',
             isCapital: 'Stamp Tax on Capital (0.5%)',
-            isTotal: 'Total Stamp Tax',
-            custoTotal: 'Total Cost incl. Tax',
-            note: 'As per the Cape Verde Stamp Tax Code, applicable to credit operations. Estimated values — confirm with your bank.',
-            tanOnlyBadge: 'Calculated with TAN (excl. charges)',
-            tanOnlyNote: 'Stamp Tax calculated on TAN interest only. Does not include fees, insurance or other charges. For more accurate values, enter the TAEG provided by your bank.'
+            isTotal: 'Total Stamp Tax (estimate)',
+            custoTotal: 'Estimated Total Cost incl. Stamp Tax',
+            note: 'As per the Cape Verde Stamp Tax Code, applicable to credit operations.',
+            tanOnlyBadge: 'Estimate without TAEG',
+            tanOnlyNote: '⚠️ Estimate based on TAN only. The actual Stamp Tax is already included in the bank\'s TAEG — enter the TAEG to see the correct total cost.',
+            includedInTaeg: '✅ Stamp Tax is already included in the TAEG provided by the bank. The TAEG reflects the real total cost of credit, covering interest, fees and taxes.'
         }
     }
 };
@@ -660,34 +662,38 @@ function calculate() {
     }
 
     // Imposto de Selo
-    const isJuros = totalInterest * 0.035;
-    const isCapital = principal * 0.005;
-    const isTotal = isJuros + isCapital;
-    const custoTotalComIS = totalPayment + isTotal;
-
-    document.getElementById('isJuros').textContent = formatCurrency(isJuros) + ' CVE';
-    document.getElementById('isCapital').textContent = formatCurrency(isCapital) + ' CVE';
-    document.getElementById('isTotal').textContent = formatCurrency(isTotal) + ' CVE';
-    document.getElementById('custoTotalComIS').textContent = formatCurrency(custoTotalComIS) + ' CVE';
     document.getElementById('fiscalSection').style.display = 'block';
-
-    // Update fiscal section labels (language-aware)
     document.querySelector('#fiscalSection h3').textContent = t('fiscal.title');
-    document.getElementById('labelIsJuros').textContent = t('fiscal.isJuros');
-    document.getElementById('labelIsCapital').textContent = t('fiscal.isCapital');
-    document.getElementById('labelIsTotal').textContent = t('fiscal.isTotal');
-    document.getElementById('labelCustoTotal').textContent = t('fiscal.custoTotal');
-
-    // Show/hide TAN-only badge and note based on whether bank TAEG was entered
     const fiscalBadge = document.getElementById('fiscalBadge');
-    const fiscalNote = document.getElementById('fiscalNote');
+
     if (useTaeg && taegInput > 0) {
+        // IS already included in TAEG — just show informational message
         fiscalBadge.style.display = 'none';
-        fiscalNote.textContent = t('fiscal.note');
+        document.getElementById('fiscalGrid').style.display = 'none';
+        document.getElementById('fiscalIncluded').style.display = 'block';
+        document.getElementById('fiscalIncludedMsg').textContent = t('fiscal.includedInTaeg');
+        document.getElementById('fiscalNote').textContent = t('fiscal.note');
     } else {
+        // TAN only — show IS estimate as additional cost
         fiscalBadge.textContent = t('fiscal.tanOnlyBadge');
         fiscalBadge.style.display = 'inline-block';
-        fiscalNote.textContent = t('fiscal.tanOnlyNote');
+        document.getElementById('fiscalIncluded').style.display = 'none';
+        document.getElementById('fiscalGrid').style.display = 'flex';
+
+        const isJuros = totalInterest * 0.035;
+        const isCapital = principal * 0.005;
+        const isTotal = isJuros + isCapital;
+        const custoTotalComIS = totalPayment + isTotal;
+
+        document.getElementById('labelIsJuros').textContent = t('fiscal.isJuros');
+        document.getElementById('labelIsCapital').textContent = t('fiscal.isCapital');
+        document.getElementById('labelIsTotal').textContent = t('fiscal.isTotal');
+        document.getElementById('labelCustoTotal').textContent = t('fiscal.custoTotal');
+        document.getElementById('isJuros').textContent = formatCurrency(isJuros) + ' CVE';
+        document.getElementById('isCapital').textContent = formatCurrency(isCapital) + ' CVE';
+        document.getElementById('isTotal').textContent = formatCurrency(isTotal) + ' CVE';
+        document.getElementById('custoTotalComIS').textContent = formatCurrency(custoTotalComIS) + ' CVE';
+        document.getElementById('fiscalNote').textContent = t('fiscal.tanOnlyNote');
     }
 
     const methodBadge = document.getElementById('methodBadge');
