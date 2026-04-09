@@ -732,7 +732,7 @@ function calculate() {
     
     document.getElementById('summaryContent').innerHTML = summaryHTML;
     document.getElementById('copyBtn').style.display = 'flex';
-    generateAmortizationSchedule(principal, monthlyPayment, monthlyRate, totalMonths);
+    generateAmortizationSchedule(principal, monthlyPayment, monthlyRate, totalMonths, useTaeg && taegInput > 0);
     
     // Update affordability indicator if income has been entered
     const incomeInput = document.getElementById('incomeInput');
@@ -745,13 +745,17 @@ function calculate() {
 // AMORTIZATION SCHEDULE
 // =============================
 
-function generateAmortizationSchedule(principal, monthlyPayment, monthlyRate, totalMonths) {
+function generateAmortizationSchedule(principal, monthlyPayment, monthlyRate, totalMonths, useTaeg) {
     let balance = principal;
-    const monthCol = currentLanguage === 'pt' ? 'Mês' : 'Month';
-    const paymentCol = currentLanguage === 'pt' ? 'Prestação' : 'Payment';
-    const interestCol = currentLanguage === 'pt' ? 'Juros' : 'Interest';
-    const principalCol = currentLanguage === 'pt' ? 'Devolve' : 'Principal';
-    const balanceCol = currentLanguage === 'pt' ? 'Saldo' : 'Balance';
+    const pt = currentLanguage === 'pt';
+
+    const monthCol     = pt ? 'Mês'       : 'Month';
+    const paymentCol   = pt ? 'Prestação' : 'Payment';
+    const interestCol  = pt ? 'Juros'     : 'Interest';
+    const principalCol = pt ? 'Capital'   : 'Principal';
+    const isCol        = pt ? 'IS (3,5%)' : 'ST (3.5%)';
+    const totalISCol   = pt ? 'Total c/ IS' : 'Total w/ ST';
+    const balanceCol   = pt ? 'Saldo'     : 'Balance';
 
     let tableHTML = `
         <table>
@@ -761,25 +765,31 @@ function generateAmortizationSchedule(principal, monthlyPayment, monthlyRate, to
                     <th>${paymentCol}</th>
                     <th>${interestCol}</th>
                     <th>${principalCol}</th>
+                    <th class="col-is">${isCol}</th>
+                    <th class="col-is">${totalISCol}</th>
                     <th>${balanceCol}</th>
                 </tr>
             </thead>
             <tbody>
     `;
-    
+
     const monthsToShow = Math.min(12, totalMonths);
-    
+
     for (let i = 1; i <= monthsToShow; i++) {
-        const interest = balance * monthlyRate;
+        const interest          = balance * monthlyRate;
         const principal_payment = monthlyPayment - interest;
+        const isJuros           = interest * 0.035;
+        const totalWithIS       = monthlyPayment + isJuros;
         balance -= principal_payment;
-        
+
         tableHTML += `
             <tr>
                 <td>${i}</td>
                 <td>${formatCurrency(monthlyPayment)}</td>
                 <td>${formatCurrency(interest)}</td>
                 <td>${formatCurrency(principal_payment)}</td>
+                <td class="col-is is-value">${formatCurrency(isJuros)}</td>
+                <td class="col-is total-is-value">${formatCurrency(totalWithIS)}</td>
                 <td>${formatCurrency(Math.max(0, balance))}</td>
             </tr>
         `;
@@ -787,11 +797,19 @@ function generateAmortizationSchedule(principal, monthlyPayment, monthlyRate, to
 
     tableHTML += `</tbody></table>`;
 
+    // IS on capital — one-time charge note
+    const isCapital = principal * 0.005;
+    const isCapitalNote = pt
+        ? `IS sobre Capital (0,5% × ${formatCurrency(principal)} CVE) = <strong>${formatCurrency(isCapital)} CVE</strong> — cobrado uma única vez no início do contrato.`
+        : `Stamp Tax on Capital (0.5% × ${formatCurrency(principal)} CVE) = <strong>${formatCurrency(isCapital)} CVE</strong> — charged once at contract inception.`;
+
+    tableHTML += `<p class="amort-is-note">${isCapitalNote}</p>`;
+
     if (totalMonths > 12) {
-        const note = currentLanguage === 'pt' 
-            ? `Mostrando primeiras 12 prestações de ${totalMonths}` 
+        const note = pt
+            ? `Mostrando primeiras 12 prestações de ${totalMonths}`
             : `Showing first 12 payments of ${totalMonths}`;
-        tableHTML += `<p style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.75rem;">${note}</p>`;
+        tableHTML += `<p style="text-align:center;font-size:0.75rem;color:var(--text-muted);margin-top:0.5rem;">${note}</p>`;
     }
 
     document.getElementById('amortizationContent').innerHTML = tableHTML;
