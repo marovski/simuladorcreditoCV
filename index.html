@@ -233,7 +233,13 @@
                         <span id="fiscalBadge" class="fiscal-badge" style="display:none"></span>
                         <button type="button" class="info-btn" onclick="showInfo('impostoSelo')" style="font-size:1rem">ℹ️</button>
                     </div>
-                    <div class="fiscal-grid">
+                    <!-- Shown when bank TAEG is provided (IS already included) -->
+                    <div id="fiscalIncluded" style="display:none">
+                        <p class="fiscal-included-msg" id="fiscalIncludedMsg"></p>
+                    </div>
+
+                    <!-- Shown when only TAN is provided (IS estimated separately) -->
+                    <div id="fiscalGrid" class="fiscal-grid">
                         <div class="fiscal-row">
                             <span id="labelIsJuros">IS sobre Juros (3,5%)</span>
                             <strong id="isJuros">0 CVE</strong>
@@ -247,7 +253,7 @@
                             <strong id="isTotal">0 CVE</strong>
                         </div>
                         <div class="fiscal-row fiscal-row--grand">
-                            <span id="labelCustoTotal">Custo Total c/ Impostos</span>
+                            <span id="labelCustoTotal">Custo Total Estimado c/ IS</span>
                             <strong id="custoTotalComIS">0 CVE</strong>
                         </div>
                     </div>
