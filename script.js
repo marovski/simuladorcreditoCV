@@ -145,19 +145,19 @@ const translations = {
                 formula: 'PMT = P × [i × (1+i)ⁿ] ÷ [(1+i)ⁿ - 1]\n\nOnde:\nP = Montante\ni = Taxa mensal (Taxa Nominal ÷ 12)\nn = Número de meses'
             },
             taeg: {
-                title: 'TEA vs TAEG — qual a diferença?',
-                description: 'Sem TAEG do banco: o simulador mostra a TEA (Taxa Efetiva Anual), que resulta apenas da capitalização dos juros da TAN. NÃO inclui comissões, seguros nem outros encargos — logo é sempre inferior à TAEG real.\n\nCom TAEG do banco: é exibida a TAEG real conforme o Aviso BCV n.º 3/2013, que inclui todos os encargos da operação de crédito.',
-                formula: 'TEA (estimativa) = [(1 + TAN/12)^12 - 1] × 100\n\nTAEG real (BCV Anexo I) = taxa X que iguala:\nPV(crédito utilizado) = PV(reembolsos + encargos)\n\nTAEG ≥ TEA sempre que existam encargos adicionais.'
+                title: 'TAN vs TAEG — qual a diferença?',
+                description: 'Sem TAEG do banco: o cartão mostra "TAN (sem encargos)". A Taxa Anual Nominal é a taxa de juro base do contrato — não inclui comissões, seguros nem outros encargos. É o ponto de partida do cálculo, não o custo real.\n\nCom TAEG do banco: é exibida a TAEG real conforme o Aviso BCV n.º 3/2013, que inclui todos os encargos da operação. Use a TAEG para comparar propostas de diferentes bancos.',
+                formula: 'Sem TAEG: exibida a TAN informada\n\nCom TAEG (BCV Anexo I) = taxa X que iguala:\nPV(crédito utilizado) = PV(reembolsos + todos os encargos)\n\nTAEG ≥ TAN sempre que existam encargos adicionais.'
             },
             totalPayment: {
                 title: 'Total a Pagar',
-                description: 'Sem TAEG do banco: soma de todas as prestações mensais (capital + juros). Não inclui comissões, seguros ou outros encargos cobrados pelo banco.\n\nCom TAEG do banco: estimativa do custo total calculada com base na TAEG, que inclui todos os encargos da operação conforme o Aviso BCV n.º 3/2013.',
+                description: 'Sem TAEG do banco: soma de todas as prestações mensais calculadas com a TAN (capital + juros). Não inclui comissões, seguros ou outros encargos cobrados pelo banco.\n\nCom TAEG do banco: estimativa do custo total calculada com base na TAEG, que inclui todos os encargos da operação conforme o Aviso BCV n.º 3/2013.',
                 formula: 'Sem TAEG: Total = Prestação Mensal (TAN) × Nº de Meses\n\nCom TAEG: Total estimado = PMT(TAEG) × Nº de Meses\n(inclui juros + encargos estimados)'
             },
             totalInterest: {
                 title: 'Custo do Crédito',
-                description: 'Sem TAEG: diferença entre o total pago e o montante emprestado — representa apenas os juros. Não inclui comissões, seguros ou outros encargos.\n\nCom TAEG: estimativa do custo total do crédito incluindo juros, comissões, seguros e demais encargos, conforme a definição de «Custo total do crédito» do Aviso BCV n.º 3/2013.',
-                formula: 'Custo = Total a Pagar − Montante Emprestado\n\nCom TAEG: inclui todos os encargos (juros + comissões + seguros)'
+                description: 'Sem TAEG: juros totais calculados com a TAN — diferença entre o total pago e o montante emprestado. Não inclui comissões, seguros ou outros encargos.\n\nCom TAEG: estimativa do custo total incluindo juros, comissões, seguros e demais encargos, conforme a definição de «Custo total do crédito» do Aviso BCV n.º 3/2013.',
+                formula: 'Sem TAEG: Juros = Total a Pagar (TAN) − Montante\n\nCom TAEG: Custo Total = PMT(TAEG) × Nº Meses − Montante\n(inclui todos os encargos)'
             },
             impostoSelo: {
                 title: 'Imposto de Selo (Regime Fiscal CV)',
@@ -298,19 +298,19 @@ const translations = {
                 formula: 'PMT = P × [i × (1+i)ⁿ] ÷ [(1+i)ⁿ - 1]\n\nWhere:\nP = Credit Amount\ni = Monthly rate (Nominal Rate ÷ 12)\nn = Number of months'
             },
             taeg: {
-                title: 'EAR vs TAEG — what\'s the difference?',
-                description: 'Without bank TAEG: the simulator shows the EAR (Effective Annual Rate), which only reflects the compounding effect of the nominal interest rate. It does NOT include fees, insurance or other charges — so it is always lower than the real TAEG.\n\nWith bank TAEG: the real TAEG is shown as per BCV Notice 3/2013, which includes all charges associated with the credit.',
-                formula: 'EAR (estimate) = [(1 + TAN/12)^12 - 1] × 100\n\nReal TAEG (BCV Annex I) = rate X where:\nPV(credit used) = PV(repayments + charges)\n\nTAEG ≥ EAR whenever additional charges exist.'
+                title: 'TAN vs TAEG — what\'s the difference?',
+                description: 'Without bank TAEG: the card shows "TAN (excl. charges)". The Nominal Annual Rate is the base interest rate in the contract — it does not include fees, insurance or other charges. It is the starting point of the calculation, not the real cost.\n\nWith bank TAEG: the real TAEG is shown as per BCV Notice 3/2013, which includes all charges. Use the TAEG to compare offers from different banks.',
+                formula: 'Without TAEG: TAN as entered\n\nWith TAEG (BCV Annex I) = rate X where:\nPV(credit used) = PV(repayments + all charges)\n\nTAEG ≥ TAN whenever additional charges exist.'
             },
             totalPayment: {
                 title: 'Total Payment',
-                description: 'Without bank TAEG: sum of all monthly payments (principal + interest). Does not include bank fees, insurance or other charges.\n\nWith bank TAEG: estimated total cost based on the TAEG, which includes all charges as per BCV Notice 3/2013.',
+                description: 'Without bank TAEG: sum of all monthly payments calculated with TAN (principal + interest). Does not include bank fees, insurance or other charges.\n\nWith bank TAEG: estimated total cost based on the TAEG, which includes all charges as per BCV Notice 3/2013.',
                 formula: 'Without TAEG: Total = Monthly Payment (TAN) × No. of Months\n\nWith TAEG: Estimated Total = PMT(TAEG) × No. of Months\n(includes interest + estimated charges)'
             },
             totalInterest: {
                 title: 'Cost of Credit',
-                description: 'Without TAEG: difference between the total paid and the amount borrowed — represents interest only. Does not include fees, insurance or other charges.\n\nWith TAEG: estimated total cost of credit including interest, fees, insurance and other charges, as per the definition of "Total cost of credit" in BCV Notice 3/2013.',
-                formula: 'Cost = Total Payment − Amount Borrowed\n\nWith TAEG: includes all charges (interest + fees + insurance)'
+                description: 'Without TAEG: total interest calculated with TAN — difference between total paid and amount borrowed. Does not include fees, insurance or other charges.\n\nWith TAEG: estimated total cost including interest, fees, insurance and other charges, as per the definition of "Total cost of credit" in BCV Notice 3/2013.',
+                formula: 'Without TAEG: Interest = Total Payment (TAN) − Principal\n\nWith TAEG: Total Cost = PMT(TAEG) × No. Months − Principal\n(includes all charges)'
             },
             impostoSelo: {
                 title: 'Stamp Tax — Fiscal Regime CV',
