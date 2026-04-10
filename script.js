@@ -1156,12 +1156,27 @@ init();
 
 let deferredInstallPrompt = null;
 
+function isBannerDismissed(key) {
+    const val = localStorage.getItem(key);
+    if (!val) return false;
+    const dismissed = JSON.parse(val);
+    if (Date.now() - dismissed.ts > 7 * 24 * 60 * 60 * 1000) {
+        localStorage.removeItem(key);
+        return false;
+    }
+    return true;
+}
+
+function dismissBanner(key) {
+    localStorage.setItem(key, JSON.stringify({ ts: Date.now() }));
+}
+
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredInstallPrompt = e;
 
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-    const dismissed = localStorage.getItem('androidBannerDismissed');
+    const dismissed = isBannerDismissed('androidBannerDismissed');
     if (isStandalone || dismissed) return;
 
     setTimeout(() => {
@@ -1197,7 +1212,7 @@ async function triggerAndroidInstall() {
 }
 
 function dismissAndroidBanner() {
-    localStorage.setItem('androidBannerDismissed', '1');
+    dismissBanner('androidBannerDismissed');
     const banner = document.getElementById('androidInstallBanner');
     if (banner) banner.style.display = 'none';
 }
@@ -1211,7 +1226,7 @@ function showIOSInstallBanner() {
         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     const isInStandalone = window.navigator.standalone === true ||
         window.matchMedia('(display-mode: standalone)').matches;
-    const dismissed = localStorage.getItem('iosBannerDismissed');
+    const dismissed = isBannerDismissed('iosBannerDismissed');
     if (!isIOS || isInStandalone || dismissed) return;
 
     const banner = document.getElementById('iosInstallBanner');
@@ -1228,7 +1243,7 @@ function showIOSInstallBanner() {
 }
 
 function dismissIOSBanner() {
-    localStorage.setItem('iosBannerDismissed', '1');
+    dismissBanner('iosBannerDismissed');
     const banner = document.getElementById('iosInstallBanner');
     if (banner) banner.style.display = 'none';
 }
