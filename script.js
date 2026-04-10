@@ -1177,7 +1177,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     const dismissed = isBannerDismissed('androidBannerDismissed');
-    if (isStandalone || dismissed) return;
+    if (isStandalone || dismissed || localStorage.getItem('appInstalled')) return;
 
     setTimeout(() => {
         const banner = document.getElementById('androidInstallBanner');
@@ -1196,6 +1196,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 
 window.addEventListener('appinstalled', () => {
     deferredInstallPrompt = null;
+    localStorage.setItem('appInstalled', '1');
     const banner = document.getElementById('androidInstallBanner');
     if (banner) banner.style.display = 'none';
 });
@@ -1227,7 +1228,7 @@ function showIOSInstallBanner() {
     const isInStandalone = window.navigator.standalone === true ||
         window.matchMedia('(display-mode: standalone)').matches;
     const dismissed = isBannerDismissed('iosBannerDismissed');
-    if (!isIOS || isInStandalone || dismissed) return;
+    if (!isIOS || isInStandalone || dismissed || localStorage.getItem('appInstalled')) return;
 
     const banner = document.getElementById('iosInstallBanner');
     if (!banner) return;
