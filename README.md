@@ -7,6 +7,7 @@ A comprehensive credit simulator web application for calculating loan payments i
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 ![Languages](https://img.shields.io/badge/languages-PT%20%7C%20EN-blue)
 
+
 ## 📋 Features
 
 ### Core Calculations
@@ -322,11 +323,6 @@ MIT License - Feel free to use, modify, and distribute.
 
 © 2026 Simulador de Crédito Cabo Verde
 
----
-
-## 👨‍💻 Co-Author
-
-**Claude AI**
 
 ---
 
